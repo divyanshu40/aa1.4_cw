@@ -31,7 +31,7 @@ async function getAllMovies() {
 app.post("/movie/new", async (req, res) => {
     const movieData = req.body;
     try {
-        let response = await addNewMovie;
+        let response = await addNewMovie();
         return res.status(201).json(response);
     } catch(error) {
         res.status(500).json({ error: error.message });
