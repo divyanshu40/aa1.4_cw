@@ -14,7 +14,7 @@ const movieSchema = new mongoose.Schema({
     releaseYear: {
         type: Number
     },
-    actor: {
+    actors: {
         type: [String]
     },
     plot: {

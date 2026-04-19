@@ -21,12 +21,31 @@ async function addNewMovie(movieData) {
     return { addedMovie };
 }
 
+// function to get all movies
+async function getAllMovies() {
+    let movies = await movie.find();
+    return movies;
+}
+
 // Endpoint to add new movie
 app.post("/movie/new", async (req, res) => {
     const movieData = req.body;
     try {
         let response = await addNewMovie;
         return res.status(201).json(response);
+    } catch(error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Endpoint to get all movies
+app.get("/movies", async (req, res) => {
+    try {
+        let response = await getAllMovies();
+        if (response.length === 0) {
+            return res.status(404).json({ message: "Movies not found"});
+        }
+        return res.status(200).json(response);
     } catch(error) {
         res.status(500).json({ error: error.message });
     }
