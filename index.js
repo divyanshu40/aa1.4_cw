@@ -27,6 +27,12 @@ async function getAllMovies() {
     return movies;
 }
 
+// function to add multiple movies
+async function addMultipleMovies(moviesData) {
+    let addedMovies = await movie.insertMany(moviesData);
+    return addedMovies;
+}
+
 // Endpoint to add new movie
 app.post("/movie/new", async (req, res) => {
     const movieData = req.body;
@@ -47,6 +53,17 @@ app.get("/movies", async (req, res) => {
         }
         return res.status(200).json(response);
     } catch(error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Endpoint to add multiple movies
+app.post("/movies/new", async (req, res) => {
+    let moviesData = req.body;
+    try {
+        let response = await addMultipleMovies(moviesData);
+        return res.status(201).json(response);
+    } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
