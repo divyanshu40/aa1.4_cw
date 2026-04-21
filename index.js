@@ -33,6 +33,15 @@ async function addMultipleMovies(moviesData) {
     return addedMovies;
 }
 
+// function to get movie by id
+async function getMovieById(movieId) {
+    let movieDetails = await movie.findById(movieId);
+    if (! movieDetails) {
+        return null
+    }
+    return movieDetails;
+}
+
 // Endpoint to add new movie
 app.post("/movie/new", async (req, res) => {
     const movieData = req.body;
@@ -63,6 +72,20 @@ app.post("/movies/new", async (req, res) => {
     try {
         let response = await addMultipleMovies(moviesData);
         return res.status(201).json(response);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Endpoint to get movie by id
+app.get("/movie/details/:id", async (req, res) => {
+    let movieId = req.params.id;
+    try {
+        let response = await getMovieById(movieId);
+        if (response === null) {
+            return res.status(404).json({ message: "Movie not found" });
+        }
+        return res.status(200).json(response);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
